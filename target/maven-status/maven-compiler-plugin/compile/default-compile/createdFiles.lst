@@ -1,1 +1,7 @@
+MaxTemperatureDriver.class
+MaxTemperatureMapper.class
+MaxTemperatureReducer.class
+NcdcRecordParser.class
+MaxTemperature.class
 ConfigurationPrinter.class
+MaxTemperatureWithCombiner.class
