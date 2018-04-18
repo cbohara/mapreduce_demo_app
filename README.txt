@@ -405,3 +405,36 @@ Job history
 	refers to the events and configuration for a completed MapReduce job
 	retained regardless of whether the job was successful
 	history log includes job, task, and attempt events
+
+Debugging a job
+	with programs running on many nodes how do we find and examine the output of debug statements?
+	log to stderr
+	create custom counter
+
+Hadoop logs
+	System daemon logs
+	HDFS audit logs
+	MR job history logs
+		overall job summary
+	MR task logs
+		syslog
+			each task child process produces a log file using log4j
+		stdout
+			file for data sent to stdout
+			WARNING = in streaming stdoutput is used for map or reduce output so won't show up in log
+		stderr
+			file for stderr
+		written in userlogs subdir of YARN_LOG_DIR
+
+	YARN log aggregation
+		yarn.log-aggregation-enable=true
+		allows you to view logs via web UI or
+		using mapred job -logs
+
+	using Apache commons logging API
+		default log level is INFO so need to set to debug if want to see in logs
+		in cluster
+			-D mapreduce.map.log.level=DEBUG
+		local
+			HADOOP_ROOT_LOGGER=DEBUG,console
+

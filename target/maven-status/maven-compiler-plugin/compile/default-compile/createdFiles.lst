@@ -1,4 +1,5 @@
 MaxTemperatureDriver.class
+MaxTemperatureMapper$Temperature.class
 MaxTemperatureMapper.class
 MaxTemperatureReducer.class
 NcdcRecordParser.class
