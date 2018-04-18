@@ -1,4 +1,6 @@
-$ mvn package -DskipTests
+Demo app and notes from 
+Hadoop: The Definitive Guide
+by Tom White
 
 #####################################
 Ch 1 - Meet Hadoop
@@ -349,3 +351,57 @@ Writing Unit Test with MRUnit
 		use MapDriver
 		if expected output values are not emitted by mapper, MR will fail test
 		mapper ignores input key
+
+Running on a cluster
+	packaging a job
+		local job runner uses single JVM to run a job so all you need to do is set the HADOOP_CLASSPATH
+		need to specify job jar
+			default
+				auto search for the JAR on the driver’s classpath
+				if it contains the class set in the setJarByClass() 
+				dependent jar files can be in lib subdir within project
+			explicit
+				set JAR file by its file path using setJar()
+
+	client classpath
+		user’s client-side classpath set by hadoop jar <jar> is made up of
+			job JAR file
+			any JAR files in the lib directory of the job JAR file, and the classes directory (if present)
+			classpath defined by HADOOP_CLASSPATH, if set
+				if you are running using the local job runner without a job JAR
+				have to set HADOOP_CLASSPATH to point to dependent classes and libraries
+
+	task classpath
+		on a cluster map and reduce tasks run in separate JVMs 
+		classpaths NOT controlled by HADOOP_CLASSPATH
+		user’s task classpath is made up of 
+			job JAR file
+			any JAR files contained in the lib directory of the job JAR file, and the classes directory (if present)
+			any files added to the distributed cache using the -libjars option
+			OR
+			addFileToClassPath() in Job()
+
+	packaging dependencies
+		best practice
+			keep the libraries separate from the job JAR 
+			add libraries to the client classpath via HADOOP_CLASSPATH
+			add libraries to the task classpath via -libjars
+		using the distributed cache
+			dependencies don’t need rebundling in the job JAR
+			fewer transfers of JAR files around the cluster
+			files may be cached on a node between tasks
+
+Job, Task, and Task Attempt IDs
+	MapReduce job IDs are generated from YARN application IDs
+		use epoch timestamp
+	tasks belong to a job 
+		task_1410450250506_0003_m_000003
+			4th map task of the job
+	tasks fail > multiple executions of same task > identified by unique attempt ID
+		attempt_1410450250506_0003_m_000003_0
+			first attempt of running map task
+
+Job history
+	refers to the events and configuration for a completed MapReduce job
+	retained regardless of whether the job was successful
+	history log includes job, task, and attempt events
