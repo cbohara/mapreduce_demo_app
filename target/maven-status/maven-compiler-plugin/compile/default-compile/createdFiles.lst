@@ -6,3 +6,4 @@ NcdcRecordParser.class
 MaxTemperature.class
 ConfigurationPrinter.class
 MaxTemperatureWithCombiner.class
+LoggingIdentityMapper.class

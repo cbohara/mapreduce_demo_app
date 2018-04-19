@@ -438,3 +438,18 @@ Hadoop logs
 		local
 			HADOOP_ROOT_LOGGER=DEBUG,console
 
+Tuning a job
+	number of mappers
+		how long are you mappers running for? if only a few seconds
+			have fewer mappers
+			that run longer ~ 1 min
+	number of reducers
+		reduce tasks should take ~5 min 
+		produce a block's worth of data
+	combiners
+		check if job can take advantage of combiners
+		reduce the amount of data passing through the shuffle
+	intermediate compression
+		enable map output compression
+	custom serialization
+		if using own Writable objects be sure to implement RawComparator
